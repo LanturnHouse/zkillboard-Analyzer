@@ -1,0 +1,60 @@
+#fitting{
+    position:absolute;
+    width: 40%;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+#info{
+    position:relative;
+    width: 340px;
+    top: 20px;
+    left: 71%;
+    display: inline-block;
+}
+
+#zkillboard_links{
+    display: flex;
+}
+
+#most_use{
+    position:relative;
+    width: 340px;
+    left: 71%;
+    top: 20px;
+    width: 340px;
+}
+
+#most_use_ships{
+    display: flex;
+    padding-left: 10%;
+}
+
+#friends{
+    position:relative;
+    left: 71%;
+    top: 20px;
+    width: 340px;
+}
+
+#friend{
+    display: flex;
+    padding-left: 10%;
+}
+
+#zkillboard_links{
+    display: flex;
+}
+
+a{
+    color : rgb(224, 224, 224);
+    text-decoration: none;
+}
+a:hover {
+    color : white;
+    text-decoration: underline;
+}
+
+.level{
+    padding-left: -35px;
+}

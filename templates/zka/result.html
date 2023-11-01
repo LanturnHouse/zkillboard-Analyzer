@@ -1,0 +1,161 @@
+{% extends "zka/base.html" %}
+{% load static %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+{% block result %}
+
+<div id="result">
+    <div id="fitting" class="p-3 rounded bg-body-secondary">
+        <div class="accordion" id="accordion">
+            {% if lossmails %}
+                {% for kill_mail_id, fitting in lossmails.items %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{kill_mail_id}}" aria-expanded="true" aria-controls="collapse{{kill_mail_id}}">
+                                <strong>{{fitting.info.ship_name}}</strong>&nbsp;| {{fitting.info.system}}({{fitting.info.system_security}}) | {{fitting.info.kill_time}} (KST)
+                            </button>
+                        </h2>
+                        <div id="collapse{{kill_mail_id}}" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                            <div class="accordion-body">
+                                {% for slot, items in fitting.fitting.items %}
+                                    {% if items %}
+                                        <h4><strong>{{slot}}</strong></h4>
+                                        {% for item in items %}
+                                            <div style="margin-top: 12px">
+                                                &nbsp;
+                                                <img class="module" src="/static/{{item.icon_path}}" style="position:absolute; height: 35px; width: 35px; z-index:1">
+                                                <img class="level" src="/static/items/{{item.meta_group_ID}}.png" style="position:absolute; height: 15px; width: 15px; z-index:2">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                {{item.name}}<br>
+                                            </div>
+                                        {% endfor %}
+                                        <br>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p><strong>자주 사용하는 함선에 대한 로스메일이 없습니다.</strong></p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div>
+        
+        <div id="info" class="p-3 rounded bg-body-secondary">
+            걸린 시간: {{info.time}} sec
+            <img class="rounded" style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%);transition: background-color 300ms; width: 50%; height: 50%;" src="{{urls.character_portrait}}">
+        
+            <p></p>
+            
+            <div class="progress-stacked">
+                <div class="progress" role="progressbar" aria-label="Segment danger" aria-valuenow="{{info.danger_ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{info.danger_ratio}}%">
+                    <div class="progress-bar bg-danger"></div>
+                </div>
+                <div class="progress" role="progressbar" aria-label="Segment Snuggly" aria-valuenow="{{info.snuggly_ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{info.snuggly_ratio}}%">
+                    <div class="progress-bar bg-success"></div>
+                </div>
+            </div>
+            <div style="text-align : center;">
+                <strong>{{info.danger_ratio}}%</strong> Dangerous
+            </div>
+
+            <p></p>
+
+            <div id="zkillboard_links">
+                <div>
+                    캐릭터: 
+                    <br>
+                    꼽: 
+                    <br>
+                    얼라: 
+                    <br>
+                    <p></p>
+                    메인 액티브: &nbsp;
+                    <br>
+                    주 활동지: 
+                </div>
+                <div>
+                    <a href="{{urls.character_zkillboard}}" target="_blank">
+                        <strong>{{info.character_name}}</strong>
+                    </a>
+                    <br>
+                    <a href="{{urls.corp_zkillboard}}" target="_blank">
+                        {{info.corp_name}} [{{info.corp_ticker}}]
+                    </a>
+                    <br>
+                    <a href="{{urls.alliance_zkillboard}}" target="_blank">
+                        {{info.alliance_name}} [{{info.alliance_ticker}}]
+                    </a>
+                    <br>
+                    <p></p>
+                    {{info.active_time}}:00 (KST)
+                    <br>
+                    {{info.main_loc}}
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+        
+        <div id="most_use" class="p-3 rounded bg-body-secondary">
+            <div style="text-align : center;">
+                <strong>2주간 가장 많이 사용 TOP 5</strong><br>
+                <!-- <div style="font-size:10px;">(웜홀 킬메일로만 계산됩니다.)</div> -->
+            </div>
+            <p></p>
+
+            
+            <div>
+                {% for ship_name, count in info.most_use.items %}
+                    <div id="most_use_ships">
+                        <div style="width:80%">
+                            {{ship_name}}
+                        </div>
+                        <div style="width: 5%; margin-left:5%">
+                            <strong>{{count}}</strong>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <p></p>
+        
+        <div id="friends" class="p-3 rounded bg-body-secondary">
+            <div style="text-align : center;">
+                <strong>2주간 같이 킬멜에 찍힌 꼽 TOP 5</strong><br>
+                <!-- <div style="font-size:10px;">(웜홀 킬메일로만 계산됩니다.)</div> -->
+            </div>
+            <p></p>
+            <div>
+                {% for friends, friends_item in info.friends.items %}
+                    <div id="friend">
+                        <div style="width:80%">
+                            <a href="https://zkillboard.com/corporation/{{friends_item.id}}/" target="_blank">
+                                {{friends}}
+                            </a>
+                        </div>
+                        <div style="width: 5%; margin-left:5%">
+                            <strong>{{friends_item.count}}</strong>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+{% endblock result %}
+
+
+
